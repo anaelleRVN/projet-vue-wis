@@ -4,13 +4,41 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Projet vue WIS</title>
 </head>
-<body>
-    <header></header>
-    <main>
+    <body>
         <p>Bienvenue</p>
-    </main>
-    <footer></footer>
-</body>
+
+        <div id="myapp">
+            {{responsedata}}
+        </div>
+
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="https://unpkg.com/vue@3"></script>
+        <script>
+            const apiURL = "https://data.nantesmetropole.fr/api/records/1.0/search/?dataset=244400404_agenda-evenements-nantes-nantes-metropole&q=&facet=emetteur&facet=rubrique&facet=lieu&facet=ville&facet=lieu_quartier"
+            const myappdata = {
+                data(){
+                    return {
+                        responsedata: {}
+                    }
+                }, 
+                methods : {
+                    async fetchApi(){
+                        await axios.get(apiURL)
+                        .then((response)=>{
+                            this.responsedata = response.data
+                        })
+                        .catch((error)=>{
+                            console.log(error)
+                        })
+                    }
+                },
+                mounted(){
+                    this.fetchApi()
+                }
+            }
+            const myapp = Vue.createApp(myappdata).mount("#myapp")
+        </script>
+    </body>
 </html>
