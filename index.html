@@ -7,10 +7,8 @@
     <title>Projet vue WIS</title>
 </head>
     <body>
-        <p>Bienvenue</p>
-
         <div id="myapp">
-            {{responsedata}}
+            <div v-if="records.length > 0" v-for="evt in records">{{evt.fields.lieu}}</div>  
         </div>
 
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -20,14 +18,25 @@
             const myappdata = {
                 data(){
                     return {
-                        responsedata: {}
+                        responsedata: {},
+                        records: [],
+                        fields: {}
                     }
                 }, 
                 methods : {
                     async fetchApi(){
                         await axios.get(apiURL)
                         .then((response)=>{
+                            console.log(response)
                             this.responsedata = response.data
+                            this.records = response.data.records
+                            
+                            //for(field in this.fields){
+                            //    console.log("ok")
+                            //    field = records.field
+                            //    
+                            //}
+                            
                         })
                         .catch((error)=>{
                             console.log(error)
